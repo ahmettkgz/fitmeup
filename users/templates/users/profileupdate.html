@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+    Blog Details
+{% endblock %}
+
+{% block contenttwo %}
+<h1>Update Profile</h1>
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button class="btn btn-outline-info"style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;" type="submit">Update</button>
+    </form>
+
+{% endblock %}

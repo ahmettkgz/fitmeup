@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}
+    Registration
+{% endblock %}
+
+{% block contenttwo %}
+    <div class="content">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4" style="font-size:2.5rem ">Join To The Winners Club!</legend>
+                {{ form.as_p }}
+            </fieldset>
+
+            <div class="form-group">
+                <button class="btn btn-outline-info"style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;" type="submit">Sign Up</button>
+            </div>
+        </form>
+
+        <div class="border-top pt-3"style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">
+            <small class="text-muted">
+                Already Have An Account?<a class="ml-2" href="{% url 'login' %}">Sign In</a>
+            </small>
+        </div>
+    </div>
+{% endblock %}

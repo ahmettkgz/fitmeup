@@ -1,0 +1,25 @@
+<!-- logoutconfirm.html -->
+{% extends "base.html" %}
+{% block title %}
+    Logout Confirmation
+{% endblock %}
+
+{% block contenttwo %}
+    <h1>Are you sure you want to log out {{ user.username }}?</h1>
+    <p>
+        If you log out, you will be redirected to the homepage/about. If you click cancel, you will be redirected to the
+        Profile Page.
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-danger"
+                style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Log Out
+        </button>
+        <button class="btn btn-outline-primary" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+                type="button" onclick="window.location.href='{% url 'mainpage' %}'">Cancel
+        </button>
+    </form>
+{% endblock %}
+
+
+

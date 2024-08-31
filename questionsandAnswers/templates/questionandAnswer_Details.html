@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}
+    Q&A
+{% endblock %}
+
+{% block contenttwo %}
+
+    <h2>Question:</h2>
+
+    <article class="media content-section" style=" background-color: #faf5f5; padding: 10px; border-radius: 4px;">
+        <div class="media-body">
+            <div class="article-metadata">
+                <small class="text-muted">{{ question.date_posted }}</small>
+                <small class="text-muted" style="font-weight: bold; font-size: 17px">
+                    For {{ question.recievers }}s</small>
+                {% if myperson and myperson.occupation == question.recievers %}
+                    <button id="show-reply-form"
+                            style=" float: right; box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Show Reply Box
+                    </button>
+                {% endif %}
+            </div>
+            <h2><a class="article-title">{{ question.title }}</a></h2>
+            <p class="article-content">{{ question.details }}</p>
+            <p style="font-family: 'Times New Roman', sans-serif; font-size: 20px; font-weight: lighter; color: saddlebrown;">{{ question.author }}</p>
+            {% if myperson and myperson.occupation == question.recievers %}
+
+                <div class="reply-form-container" style="display: none;">
+                    <h2>Your Reply:</h2>
+                    <form id="reply-form" data-question-id="{{ question.id }}"
+                          action="{% url 'questionandanswerdetails' pk=question.id %}" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" style=" float: right; box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">
+                            Submit Reply
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+            {% if user.is_authenticated and user == question.author %}
+                <div class="d-flex">
+                    <form action="{% url 'question_update' pk=question.pk %}">
+                        <button type="submit" class="btn btn-outline-info mr-2"
+                                style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Update
+                        </button>
+                    </form>
+                    <form action="{% url 'question_delete' pk=question.pk %}">
+                        <button type="submit" class="btn btn-outline-danger"
+                                style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Delete
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+
+    </article>
+    {% for answer in answers %}
+        <div class="answer" style="background-color:  #ebe0db; padding: 10px; border-radius: 8px; margin-top: 10px;margin-bottom: 10px;
+        box-shadow: 0 4px 22px rgba(0, 0, 0, 0.2);">
+            <p class="answer-text" style="font-size: 18px; margin-bottom: 5px;">{{ answer.text }}</p>
+            <div class="answer-details" style="font-size: 14px; color: #777;">
+                <p class="answer-author" style="margin-bottom: 5px; color: saddlebrown">Posted
+                    by: {{ answer.author }}</p>
+                <p class="answer-date" style="color: #999;">Date Posted: {{ answer.date_posted }}</p>
+                {% if user == answer.author %}
+                    <form action="{% url 'answer_delete' pk=answer.pk %}">
+                        <button type="submit" class="btn btn-outline-danger"
+                                style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Delete
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    <script>
+
+        // Get references to the button and form elements
+        const showReplyButton = document.getElementById('show-reply-form');
+        const replyFormContainer = document.querySelector('.reply-form-container');
+
+        // Add a click event listener to the button
+        showReplyButton.addEventListener('click', () => {
+            // Toggle the display property of the form container
+            replyFormContainer.style.display = replyFormContainer.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
+{% endblock %}

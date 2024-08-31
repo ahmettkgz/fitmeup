@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title%}
+Homepage
+{%endblock%}
+
+
+{% block contenttwo %}
+<h1>Homepage</h1>
+<div>
+
+  <p class="text-muted">Hey there! Are you ready to change? We are going to help you achieve your goals and make your "Dream Body" together. Our team of experienced trainers and nutritionists will provide you with tailored meal plans and continuous support throughout your fitness journey. Whether your goal is to lose weight, build muscle, improve your overall fitness, or enhance your athletic performance, we have the expertise and resources to guide you every step of the way. At the end of the journey, you'll be amazed at the transformation your body undergoes and the results you achieve. Don't wait any longer – take the first step with "Fit Me Up" towards a healthier and fitter you today! <strong>If you already have an account, please click <a href="{% url 'login' %}">Login</a>. If not please click <a href="{% url 'register' %}">Register</a>.</strong> Together, Let's create a community of support, inspiration, and shared achievements.</p><br>
+</div>
+
+<style>
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li2::before {
+        content: "•";
+          color: #04223d;
+        font-size: 1.5em;
+        margin-right: 1em;
+      }
+    </style>
+
+<style>
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+
+      li:before {
+        content: "•";
+          color: #1d568a;
+        font-size: 2em;
+        margin-right: 1em;
+      }
+        li3:before {
+        content: "";
+        font-size: 1em;
+        margin-right: 0.5em;
+      }
+    </style>
+
+<ul>
+  <li><strong style="font-size: 1.5em;">Diary</strong>
+    <div class="col-md-8">
+      <div class="diary content">
+        <p>This section provides a comprehensive view of your health and fitness progress. It includes the following features:</p>
+        <ul>
+  <li2><strong>Water Tracker:</strong> Keep track of your daily water intake to ensure you stay hydrated and maintain optimal health.</li2><br>
+  <li2><strong>Calorie Calculator:</strong> Calculate the number of calories you consume each day by adding the foods you ate. This helps you monitor your calorie intake and manage your weight.</li2><br>
+  <li2><strong>Food Diary:</strong> Keep a record of the foods you consumed throughout the day to have a better understanding of your eating habits and make informed dietary choices.</li2>
+</ul>
+
+        <p>By utilizing these tools, you can gain valuable insights into your daily health routine and make adjustments as necessary to achieve your wellness goals.</p>
+      </div>
+    </div>
+  </li>
+  <li><strong style="font-size: 1.5em;">Blogs</strong></li>
+  <p id="blogs">This is our blog section! Here, you'll find a collection of insightful articles and informative posts on various topics related to health, fitness, nutrition, and overall well-being. You can share your workout routines, healthy recipes, or motivation to stay committed to your goals etc. Stay tuned for regular updates and make sure to check out our latest articles for all the information you need to lead a healthier and more active lifestyle.</p>
+  <li><strong style="font-size: 1.5em;">Recipes</strong></li>
+   <p id="recipes">Explore our collection of delicious and nutritious recipes curated by our passionate community of food enthusiasts. In this section, we bring you a wide range of recipes that cater to various dietary preferences and goals. From quick and easy meals to indulgent treats, you'll find a recipe for every occasion. Our detailed instructions and ingredient lists make it easy for you to recreate these dishes in your own kitchen. Get ready to embark on a culinary adventure and discover the joy of cooking with our diverse and flavorful recipes.</p>
+  <li><strong style="font-size: 1.5em;">Q&A's</strong></li>
+ <p id="qa">Have a burning fitness or nutrition question? Our Q&A's section is the perfect place to seek expert advice and gain valuable insights. Here, you can ask your questions and receive answers from our team of professional chefs and athletes. Submit your questions and get ready to receive expert advice that will empower you to make informed decisions and reach your health and fitness goals.</p>
+     <li><strong style="font-size: 1.5em;">Athletes' Quotes</strong></li>
+  <p id="athletes-quotes">Looking for some inspiration to fuel your fitness journey? Our Athletes' Quotes section features motivational and insightful quotes from professional athletes. These quotes are meant to uplift and encourage you, reminding you of the power of determination, perseverance, and hard work. If you're an athlete yourself and have a powerful quote to share with the community, we invite you to submit it. Your words could inspire and motivate countless individuals on their path to greatness. </p>
+  <li><strong style="font-size: 1.5em;">Profile</strong></li>
+     <p id="profile">Manage your profile and track your fitness progress. Update your height, weight, and goals. Visualize your progress with a weight graph. Take control of your fitness journey and achieve your goals.</p>
+</ul>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}
+    Diary
+{% endblock %}
+
+
+{% block contenttwo %}
+
+    <h1>Diary</h1>
+    {% if user.is_authenticated %}
+        {% if myperson.calculate_macros %}
+            <div class="calculate-macros-info"
+                 style="background-color: #ebe0db; padding: 10px; margin-bottom: 10px; border-radius: 10px;
+                  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.2);">
+                <h2 style="font-size: 24px; margin-bottom: 10px;">Your Nutritional Needs</h2>
+                <p style="font-size: 18px;">
+                    <strong>Calories:</strong> {{ myperson.calculate_calories|floatformat:1 }} cal
+                </p>
+                <p style="font-size: 18px;">
+                    <strong>Protein:</strong> {{ myperson.calculate_macros.protein|floatformat:1 }} gr</p>
+                <p style="font-size: 18px;">
+                    <strong>Carbs:</strong> {{ myperson.calculate_macros.carbs|floatformat:1 }}
+                    gr</p>
+                <p style="font-size: 18px;"><strong>Fat:</strong> {{ myperson.calculate_macros.fats|floatformat:1 }}
+                    gr</p>
+            </div>
+        {% else %}
+            <p>(Please Fill Up All The Infos From Profile Page To See Your Needs)</p>
+        {% endif %}
+        <div style="display: flex; flex-direction: row; gap: 20px;">
+            <div class="water-tracker" style="padding: 10px; background-color : #efe6e2; border-radius: 10px;
+              box-shadow: 0 4px 22px rgba(0, 0, 0, 0.2);">
+                <h2 style="font-size: 24px; margin-bottom: 4px;">Water Tracker</h2>
+                <small> (Recommended by experts: At least 12 glasses)</small>
+                <div class="water-forms" style="display: flex; flex-direction: row; gap: 15px;">
+                    {% if total_water >= 1 %}
+                        <form method="post" action="{% url 'subtract_water' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger">- Subtract Water</button>
+                        </form>
+                    {% endif %}
+                    <p style="font-weight: bold; font-size: 30px; color: {% if total_water < 8 %}red{% elif total_water < 13 %}limegreen{% else %}deepskyblue{% endif %}">
+                        {{ total_water }}
+                    </p>
+                    <form method="post" action="{% url 'add_water' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-info mr-2">+ Add A Glass Of Water</button>
+                    </form>
+                </div>
+            </div>
+
+            {% if random_quote %}
+                <div class="random-quote" style="padding: 10px; background-color: #efe6e2; border-radius: 10px;
+                  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.2); max-width: 100%;">
+                    <blockquote><strong>{{ random_quote.inspiration }}</strong></blockquote>
+                    <p>- {{ random_quote.athlete.user.username }}</p>
+                </div>
+            {% endif %}
+        </div>
+        <div style="background-color: #f2ebe7">
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-group" style="margin-top: 10px">
+                    <input type="text" name="query" class="form-control inputstyle"
+                           placeholder="search your food to calculate your calorie taken..." required>
+                    <button class="btn whoop" type="submit" id="button-addon2">Find Calories</button>
+                </div>
+            </form>
+            {% if api %}
+                {% if api == "There was an error" %}
+                    <div class="alert alert-warning"> Oh no! Something went wrong!</div>
+                {% else %}
+                    <h2>Nutrition Values</h2>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Calories</th>
+                            <th>Serving Size (g)</th>
+                            <th>Total Fat (g)</th>
+                            <th>Protein (g)</th>
+                            <th>Total Carbohydrates (g)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in api %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.calories }}</td>
+                                <td>{{ item.serving_size_g }}</td>
+                                <td>{{ item.fat_total_g }}</td>
+                                <td>{{ item.protein_g }}</td>
+                                <td>{{ item.carbohydrates_total_g }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if myperson.calculate_macros %}
+                        <div style="padding:10px; background-color: #f3edea;border-radius: 10px;
+                         box-shadow: 0 4px 22px rgba(0, 0, 0, 0.2);">
+                            <h2>Total Daily Calorie Intake</h2>
+                            <p>{{ total_calories }} cal</p>
+                            <p>you should take {{ remaining_calories }} more:</p>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+
+        </div>
+    {% else %}
+        <p style="font-size: 25px;">
+            First, you need to
+            <a class="btn btn-outline-primary" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="{% url 'login' %}">login</a>
+            or
+            <a class="btn btn-outline-success" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="{% url 'register' %}">register</a>
+            to see the Diary Page.
+        </p>
+    {% endif %}
+{% endblock %}

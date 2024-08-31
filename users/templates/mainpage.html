@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}
+    Profile Page
+{% endblock %}
+
+{% block contenttwo %}
+
+    <h1>Profile Page</h1>
+    {% if user.is_authenticated %}
+        <div class="profile-head"
+             style="background-color: #bdbdd9 ; padding: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);">
+            <h2>{{ user.username }}'s Profile</h2>
+        </div>
+        <div class="profile-info" style="background-color: #f0f0f0; padding: 10px; margin-bottom: 15px">
+            <p><strong>First Name:</strong> {{ user.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+            <p><strong>Occupation:</strong> {{ myperson.occupation }}</p>
+            <p><strong>Date of Birth:</strong> {{ myperson.date_of_birth }}</p>
+            <p><strong>Gender:</strong> {{ myperson.gender }}</p>
+            <p><strong>Height:</strong> {{ myperson.height }} cm</p>
+            <p><strong>Weight:</strong> {{ myperson.weight }} kg</p>
+            <p><strong>Your Goal:</strong> {{ myperson.purpose }}</p>
+            <p><strong>Exercise per Week:</strong> {{ myperson.exercise_per_week }}</p>
+            {% if myperson.occupation == 'athlete' %}
+                <p><strong>Sport:</strong> {{ myperson.sport }}</p>
+            {% endif %}
+            {% if myperson.calculate_macros %}
+                <div class="calculate-macros-info"
+                     style="background-color: #ebe0db; padding: 10px; margin-bottom: 10px; border-radius: 10px;
+                  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.2);">
+                    <h2 style="font-size: 24px; margin-bottom: 10px;">Your Nutritional Needs</h2>
+                    <p style="font-size: 18px;">
+                        <strong>Calories:</strong> {{ myperson.calculate_calories|floatformat:1 }} cal
+                    </p>
+                    <p style="font-size: 18px;">
+                        <strong>Protein:</strong> {{ myperson.calculate_macros.protein|floatformat:1 }} gr</p>
+                    <p style="font-size: 18px;">
+                        <strong>Carbs:</strong> {{ myperson.calculate_macros.carbs|floatformat:1 }}
+                        gr</p>
+                    <p style="font-size: 18px;"><strong>Fat:</strong> {{ myperson.calculate_macros.fats|floatformat:1 }}
+                        gr</p>
+                </div>
+            {% else %}
+                <p>(Please Fill Up All The Infos From Update Page To See Your Needs)</p>
+            {% endif %}
+
+
+            <form action="{% url 'profileupdate' pk=myperson.pk %}">
+                <button type="submit" class="btn btn-outline-info mr-2"
+                        style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Update
+                </button>
+            </form>
+        </div>
+    {% else %}
+
+        <p style="font-size: 25px;">
+            First, you need to
+            <a class="btn btn-outline-primary" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="{% url 'login' %}">login</a>
+            or
+            <a class="btn btn-outline-success" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="{% url 'register' %}">register</a>
+            to have an Profile.
+        </p>
+    {% endif %}
+
+{% endblock %}

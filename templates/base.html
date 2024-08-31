@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+
+    <title>{% block title %} {% endblock %} | Application </title>
+
+    <style>
+        body {
+            color: #333333;
+            margin-top: 5rem;
+            background-color: #d8f6de;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: lightslategrey">
+        <div class="container">
+            <a class="navbar-brand mr-4" href="/">Fit Me Up</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                    aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="/">Home/About</a>
+                </div>
+                <!-- Navbar Right Side -->
+                <div class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                    {% endif %}
+                    <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<main role="main" class="container" style="margin-left: 175px">
+    <div class="row">
+        <div class="col-md-8">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% block contenttwo %}{% endblock %}
+        </div>
+        <div class="col-md-4 mt-5">
+            <div class="content" style="box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 6px 3px;">
+                <div style="margin-left: 10px; margin-top: 7px">
+                <h3>Contents</h3>
+                <p class='text-muted'>It's not "one day", It's "Day One"</p>
+                </div>
+                <ul class="list-group" style="box-shadow:  2px -2px 8px rgba(0, 0, 0, 0.2);">
+                    <li3 class="list-group-item list-group-item-light"><a href="{% url 'diary' %}">Diary</a></li3>
+                    <li3 class="list-group-item list-group-item-light"><a href="{% url 'recipes' %}">Recipes</a></li3>
+                    <li3 class="list-group-item list-group-item-light"><a href="{% url 'blogs' %}">Blog</a></li3>
+                    <li3 class="list-group-item list-group-item-light"><a
+                            href="{% url 'questionsandanswers' %}">Q&A's</a></li3>
+                    <li3 class="list-group-item list-group-item-light"><a href="{% url 'athletesquotes' %}">Athletes'
+                        Quotes</a></li3>
+                    <li3 class="list-group-item list-group-item-light"><a href="{% url 'mainpage' %}">Profile</a></li3>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+
+{% block content %}{% endblock %}
+
+</body>
+</html>
