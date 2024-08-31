@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Recipes
+{% endblock %}
+
+{% block contenttwo %}
+    <h1>Recipes</h1>
+    {% if user.is_authenticated %}
+        {% if myperson and myperson.occupation == 'chef' %}
+            <div>
+                <a class="btn btn-outline-secondary" style="margin-bottom: 15px;
+       box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+                   href="{% url 'recipe_create' %}">Create
+                    a Recipe</a>
+            </div>
+        {% else %}
+            <p>You need to be a Chef to create a Recipe</p>
+        {% endif %}
+    {% else %}
+        <p style="font-size: 25px;">
+            First, you need to
+            <a class="btn btn-outline-primary" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="{% url 'login' %}">login</a>
+            or
+            <a class="btn btn-outline-success" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="{% url 'register' %}">register</a>
+            to write or edit your Recipe.
+        </p>
+    {% endif %}
+    <div>
+        <div class="btn-group" role="group">
+            <a href="{% url 'recipe_list_by_category' 'all' %}"
+               class="btn {% if selected_category_slug == 'all' %}btn-primary{% else %}btn-secondary{% endif %}">
+                All</a>
+            <a href="{% url 'recipe_list_by_category' 'breakfast' %}"
+               class="btn {% if selected_category_slug == 'breakfast' %}btn-primary{% else %}btn-secondary{% endif %}">
+                Breakfast</a>
+            <a href="{% url 'recipe_list_by_category' 'lunch' %}"
+               class="btn {% if selected_category_slug == 'lunch' %}btn-primary{% else %}btn-secondary{% endif %}">
+                Lunch</a>
+            <a href="{% url 'recipe_list_by_category' 'dinner' %}"
+               class="btn {% if selected_category_slug == 'dinner' %}btn-primary{% else %}btn-secondary{% endif %}">
+                Dinner</a>
+            <a href="{% url 'recipe_list_by_category' 'special_event' %}"
+               class="btn {% if selected_category_slug == 'special_event' %}btn-primary{% else %}btn-secondary{% endif %}">
+                Special Event</a>
+        </div>
+    </div>
+
+    {% if selected_category_slug %}
+        <h2>Category: {{ selected_category_slug|title }}</h2>
+    {% endif %}
+
+    <div>
+        {% for recipe in recipes %}
+            <div class="recipe"
+                 style="padding: 10px; background-color: #deeaff; box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;">
+                <h3><a href="{% url 'recipe_details' recipe.pk %}">{{ recipe.title }}</a></h3>
+                <p>{{ recipe.ingredients }}</p>
+                <p style="font-style: italic; color: saddlebrown; font-size: larger;">{{ recipe.chef }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if recipes.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ recipes.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ recipes.number }} of {{ recipes.paginator.num_pages }}.
+                </span>
+
+                {% if recipes.has_next %}
+                    <a href="?page={{ recipes.next_page_number }}">next</a>
+                    <a href="?page={{ recipes.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+{% endblock %}

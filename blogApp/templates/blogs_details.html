@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}
+    Blog Details
+{% endblock %}
+
+{% block contenttwo %}
+    <article class="media content-section" style="background-color: #faf5f5; padding: 10px;">
+        <div class="media-body">
+            <div class="article-metadata">
+                <small class="text-muted">{{ post.date_posted }}</small>
+            </div>
+            <h2><a class="article-title">{{ post.title }}</a></h2>
+            <p style="font-family: 'Times New Roman', sans-serif; font-size: 20px; font-weight: lighter; color: saddlebrown;">{{ post.author }}</p>
+            <p class="article-content">{{ post.content }}</p>
+
+            {% if user.is_authenticated and user == post.author %}
+                <div class="d-flex">
+                    <form action="{% url 'blog_update' pk=post.pk %}">
+                        <button type="submit" class="btn btn-outline-info mr-2"style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Update</button>
+                    </form>
+                    <form action="{% url 'blog_delete' pk=post.pk %}">
+                        <button type="submit" class="btn btn-outline-danger"style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Delete</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </article>
+{% endblock %}

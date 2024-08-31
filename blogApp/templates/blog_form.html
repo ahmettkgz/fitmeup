@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}
+    Create Post
+{% endblock %}
+
+{% block contenttwo %}
+<div class="content">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4" style="font-size:2.5rem ">Blog Post </legend>
+            {{ form.as_p }}
+        </fieldset>
+
+        <div class="form-group">
+            <button class="btn btn-outline-info"style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;" type="submit">Post</button>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}

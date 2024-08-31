@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}
+    Blog Details
+{% endblock %}
+
+{% block contenttwo %}
+    <article class="media content-section" style="background-color: #faf5f5; padding: 10px;">
+        <div class="media-body">
+            <div class="article-metadata">
+                <small class="text-muted">{{ post.date_posted }}</small>
+
+            <p><a class="article-content">{{ post.inspiration }}</a></p>
+            <p style="font-family: 'Times New Roman', sans-serif; font-size: 25px; font-weight: lighter; color: saddlebrown;">{{ post.author }}</p>
+            <p class="article-title">{{ post.title }}</p>
+            </div>
+
+        </div>
+    </article>
+{% endblock %}

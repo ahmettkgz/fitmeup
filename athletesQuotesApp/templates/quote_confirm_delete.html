@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}
+    Delete Post
+{% endblock %}
+
+{% block contenttwo %}
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4" style="font-size:2.5rem ">Delete Post</legend>
+            <h2>Are You Sure You Want To Delete It?</h2>
+        </fieldset>
+
+        <div class="form-group">
+            <button class="btn btn-outline-danger" style="box-shadow:
+             rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;" type="submit">Yes
+            </button>
+            <a class="btn btn-outline-secondary" style="box-shadow:
+             rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;" a href="{% url 'athletesquotes' %}">Cancel</a>
+        </div>
+
+    </form>
+
+{% endblock %}

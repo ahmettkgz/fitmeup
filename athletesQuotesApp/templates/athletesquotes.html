@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}
+    Quotes
+{% endblock %}
+
+{% block contenttwo %}
+    <h1>Athletes Quotes</h1>
+    {% if user.is_authenticated %}
+        {% if myperson and myperson.occupation == 'athlete' %}
+            <div>
+                <a class="btn btn-outline-secondary" style="margin-bottom: 15px;
+       box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;" background-color: #f0f0f0; href="{% url 'quote_create' %}">Create
+                    a Quote</a>
+            </div>
+        {% else %}
+            <p>You need to be a Athlete to create a Quote</p>
+        {% endif %}
+    {% else %}
+        <p style="font-size: 25px;">
+            First, you need to
+            <a class="btn btn-outline-primary" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="{% url 'login' %}">login</a>
+            or
+            <a class="btn btn-outline-success" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="{% url 'register' %}">register</a>
+            to write or edit your Quote.
+        </p>
+    {% endif %}
+    <div style="display: flex; flex-direction: column; gap: 15px">
+        {% for post in posts %}
+            <article class="media content-section" style="background-color: #faf5f5; padding: 10px; ">
+                <div class="media-body" style=" max-width: 100%;">
+                    <div style="background-color: #f0f0f0; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 10px;">
+                        <p style="font-family: 'Calisto MT', sans-serif; font-size: 25px; font-weight: bold; color: #333;overflow-wrap: break-word;">{{ post.inspiration }}</p>
+                        <p style="font-family: Arial, sans-serif; font-size: 22px; font-weight: lighter; color: saddlebrown; font-style: italic;">{{ post.athlete.user.username }}</p>
+                    </div>
+
+                    {% if user.is_authenticated and user == post.athlete.user %}
+                        <div class="d-flex">
+                            <form action="{% url 'quote_update' pk=post.pk %}">
+                                <button type="submit" class="btn btn-outline-info mr-2"
+                                        style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Update
+                                </button>
+                            </form>
+                            <form action="{% url 'quote_delete' pk=post.pk %}">
+                                <button type="submit" class="btn btn-outline-danger"
+                                        style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;">Delete
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-secondary mb-4"
+               style="margin-top: 15px;box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4"
+               style="margin-top: 15px; margin-left: 20px;box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if num > 0 %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-outline-info mb-4 "
+                       style="margin-top: 15px;box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+                       href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %}
+                    <a class="btn btn-outline-info mb-4 "
+                       style="margin-top: 15px;box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+                       href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4"
+               style="margin-top: 15px; margin-right: 20px;box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-secondary mb-4"
+               style="margin-top: 15px;box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;"
+               href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
+
